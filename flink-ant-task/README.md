@@ -1,0 +1,1 @@
+Flink ant task to package the assets
