@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<project name="flink-ant" basedir="../" default="copy-to-example">
+
+	<target name="setup-properties">
+		<property name="scala.home" value="/usr/local/scala/scala-2.8.0.final" />
+		<property name="build" value="build" />
+		<property name="build.classes" value="${build}/classes" />
+		<property name="build.lib" value="${build}/lib" />
+		<property name="jarname" value="${build.lib}/${ant.project.name}.jar" />
+	</target>
+
+	<target name="init" depends="setup-properties">
+		<property name="scala-library.jar" value="${scala.home}/lib/scala-library.jar" />
+		<path id="build.classpath">
+			<pathelement location="${scala-library.jar}" />
+			<pathelement location="${build.classes}" />
+			<pathelement location="lib/ant-1.8.2.jar" />
+		</path>
+		<taskdef resource="scala/tools/ant/antlib.xml">
+			<classpath>
+				<pathelement location="${scala.home}/lib/scala-compiler.jar" />
+				<pathelement location="${scala-library.jar}" />
+			</classpath>
+		</taskdef>
+	</target>
+
+	<target name="setup" depends="init">
+		<mkdir dir="${build.classes}" />
+		<mkdir dir="${build.lib}" />
+	</target>
+
+	<target name="compile" depends="setup">
+		<scalac srcdir="src/main/scala" destdir="${build.classes}" classpathref="build.classpath" />
+	</target>
+
+	<target name="antlib" depends="compile">
+		<copy todir="${build.classes}">
+			<fileset dir="src/main" includes="**/antlib.xml" />
+		</copy>
+		<jar destfile="${jarname}" basedir="${build.classes}" />
+	</target>
+	
+	<target name="copy-to-example" depends="antlib">
+		<copy todir="../flink-example/script/libs" file="${jarname}" />
+	</target>
+
+	<target name="clean" depends="setup-properties">
+		<delete dir="${build}" />
+	</target>
+</project>

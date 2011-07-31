@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<antlib>
+	<typedef name="flink-pack" classname="flink.ant.PackTask" />
+	<typedef name="flink-manifest" classname="flink.ant.ManifestTask" />
+</antlib>
