@@ -3,7 +3,8 @@
 */.classpath
 */.scala_dependencies
 *tempViewerHTML.html
-bin/*.swc
+flink-as3/bin/main/*.swc
+flink-as3/bin/test/*
 bin/*.swf
 bin/*.zip
 bin_test/*.swf
